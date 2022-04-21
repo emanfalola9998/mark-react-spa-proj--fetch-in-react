@@ -1,22 +1,28 @@
 import { useState } from "react";
 
-interface Joke {
-  id: number;
-  type: string;
-  setup: string;
-  punchline: string;
+interface dogInterface {
+  message: string;
+  status: string
 }
 
 function App() {
-  const [joke, setJoke] = useState<Joke>();
+  // const [joke, setJoke] = useState<Joke>();
+  const [dogImages, setDogImages] = useState<dogInterface[]>([])
 
-  const handleGetJoke = async () => {
+  const handleDogPicture = async () => {
     const response = await fetch(
-      "https://jokestemp.neillbogie.repl.co/jokes/general/random"
+      "https://dog.ceo/api/breeds/image/random"
     );
-    const jsonBody: Joke[] = await response.json();
-    setJoke(jsonBody[0]);
+    const jsonBody: dogInterface= await response.json();
+    setDogImages([...dogImages, jsonBody]);
+    /// we spread our dogImages and we add on the jsonBody which has all our images
   };
+
+
+  // const handledogImages = () => {
+  //   setDogImages([...dogImages, joke])
+  // }
+
 
   // const handleGetJoke = () => {
   //   fetch("https://jokestemp.neillbogie.repl.co/jokes/general/random")
@@ -24,16 +30,19 @@ function App() {
   //     .then((jsonBody: Joke[]) => setJoke(jsonBody[0]));
   // };
 
-  if (joke) {
+  // const arrayOfImages = joke?.message.map((oneJoke) => (<><li><img src={oneJoke} alt=''/></li></>))
+
+  if (dogImages) {
     return (
       <div>
         <h1>Joke app</h1>
-        <details>
-          <summary>{joke.setup}</summary>
-          <p>{joke.punchline}</p>
-        </details>
+        {/* {dogImages} */}
+        <ul>
+          {dogImages.map((oneDog) => <img key={oneDog.message}src={oneDog.message} alt=""/>)} 
+        </ul>
+
         <hr />
-        <button onClick={handleGetJoke}>Get another joke</button>
+        <button onClick={handleDogPicture}>Get another Dog Picture</button>
       </div>
     );
   } else {
@@ -44,7 +53,7 @@ function App() {
           Click the button to trigger a <code>fetch</code> that gets a random
           joke from an API!
         </p>
-        <button onClick={handleGetJoke}>Get joke</button>
+        <button onClick={handleDogPicture}>Get joke</button>
       </div>
     );
   }
