@@ -32,31 +32,27 @@ function App() {
 
   // const arrayOfImages = joke?.message.map((oneJoke) => (<><li><img src={oneJoke} alt=''/></li></>))
 
-  if (dogImages) {
+  
     return (
-      <div>
-        <h1>Joke app</h1>
-        {/* {dogImages} */}
-        <ul>
-          {dogImages.map((oneDog) => <img key={oneDog.message}src={oneDog.message} alt=""/>)} 
-        </ul>
-
-        <hr />
-        <button onClick={handleDogPicture}>Get another Dog Picture</button>
+      <div> 
+      <h1>Joke app</h1>
+      {dogImages ?
+          (
+            <><ul>
+              {dogImages.map((oneDog) => <img key={oneDog.message} src={oneDog.message} alt="" />)}
+            </ul><hr /><button onClick={handleDogPicture}>Get another Dog Picture</button></>):
+            (<><p>
+            Click the button to trigger a <code>fetch</code> that gets a random
+            joke from an API!
+          </p><button onClick={handleDogPicture}>Get another Dog Picture</button></>
+            )}
       </div>
     );
-  } else {
-    return (
-      <div>
-        <h1>Joke app</h1>
-        <p>
-          Click the button to trigger a <code>fetch</code> that gets a random
-          joke from an API!
-        </p>
-        <button onClick={handleDogPicture}>Get joke</button>
-      </div>
-    );
-  }
+   
+    
+      
+    
+  
 }
 
 export default App;
